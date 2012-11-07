@@ -25,6 +25,8 @@
 
 #include "stdafx.h"
 
+#if !defined(NO_CORE_GRAPHICS)
+
 #include "CGRoutines.h"
 
 #include "DIBPixelData.h"
@@ -34,6 +36,8 @@
 #include <cfloat>
 #include <cstdio>
 #include <crtdbg.h>
+
+#pragma comment (lib, "CoreGraphics.lib")
 
 CGRenderer::CGRenderer(HWND hWnd, HDC hdc) : m_bitmapDC(0), m_bitmapData(0),
 	m_bitmap(0), m_oldBitmap(0), m_cr(0), m_messageFont(0)
@@ -365,3 +369,4 @@ void CGRenderer::ResizeDemo(HWND hWnd, const RECT& rect)
 
 	::ReleaseDC(hWnd, hdc);
 }
+#endif

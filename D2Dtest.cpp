@@ -65,7 +65,9 @@ LRESULT PaintCairoDemo (HDC hdc);
 LRESULT PaintCGDemo (HWND hWnd, HDC hdc);
 
 D2DRenderer* g_d2dRenderer = 0;
+#if !defined(NO_CORE_GRAPHICS)
 CGRenderer* g_cgRenderer = 0;
+#endif
 CairoRenderer* g_cairoRenderer = 0;
 IRenderTest* g_currentTest = 0;
 
@@ -206,7 +208,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    SetPixelFormat(g_hMainHDC, iFormat, &pfd);
 
    g_cairoRenderer = new CairoRenderer(g_hMainWnd, g_hMainHDC);
+#if !defined(NO_CORE_GRAPHICS)
    g_cgRenderer = new CGRenderer(g_hMainWnd, g_hMainHDC);
+#endif
    g_d2dRenderer = new D2DRenderer(g_hMainWnd, g_hMainHDC);
    g_currentTest = g_cairoRenderer;
 
@@ -223,10 +227,12 @@ static void SwitchDrawType (HWND hWnd, drawType changeToType)
 		::SetWindowText (hWnd, L"D2DTest: Direct2D");
       g_currentTest = g_d2dRenderer;
 		break;
+#if !defined(NO_CORE_GRAPHICS)
 	case e_CoreGraphics:
 		::SetWindowText (hWnd, L"D2DTest: CoreGraphics");
       g_currentTest = g_cgRenderer;
 		break;
+#endif
 	case e_Cairo:
 	default:
 		::SetWindowText (hWnd, L"D2DTest: Cairo");
@@ -297,7 +303,9 @@ LRESULT CALLBACK WndProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
          g_Width = rect.right;
 
          g_d2dRenderer->ResizeDemo(hWnd, rect);
+#if !defined(NO_CORE_GRAPHICS)
          g_cgRenderer->ResizeDemo (hWnd, rect);
+#endif
          g_cairoRenderer->ResizeDemo (hWnd, rect);
 
          ::InvalidateRect(hWnd, 0, FALSE);

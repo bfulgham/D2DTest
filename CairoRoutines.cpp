@@ -37,6 +37,8 @@
 
 #include <cstdio>
 
+#pragma comment (lib, "cairo.lib")
+
 CairoRenderer::CairoRenderer(HWND hWnd, HDC hdc) : m_surface(0), m_cr(0), m_hdc(0)
 {
    InitDemo(hWnd, hdc);

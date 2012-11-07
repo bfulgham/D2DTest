@@ -26,6 +26,8 @@
 
 #include "IRenderTest.h"
 
+#if !defined(NO_CORE_GRAPHICS)
+
 #include <CoreGraphics/CoreGraphics.h>
 
 class CGRenderer : public IRenderTest
@@ -48,3 +50,4 @@ private:
    LOGFONT m_windowsFont;
    CGFontRef m_messageFont;
 };
+#endif
