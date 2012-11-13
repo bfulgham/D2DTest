@@ -50,6 +50,9 @@
     <ClInclude Include="CairoRoutines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CairoGLRoutines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -68,6 +71,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D2DRoutines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CairoGLRoutines.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

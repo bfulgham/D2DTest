@@ -16,6 +16,7 @@
 #define IDM_CAIRO               110
 #define IDM_CG                  111
 #define IDM_D2D                 112
+#define IDM_CAIRO_GL            113
 #define IDC_MYICON				2
 #ifndef IDC_STATIC
 #define IDC_STATIC				-1

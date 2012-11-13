@@ -27,6 +27,7 @@
 #include "D2Dtest.h"
 
 #include "CairoRoutines.h"
+#include "CairoGLRoutines.h"
 #include "CGRoutines.h"
 #include "D2DRoutines.h"
 
@@ -49,7 +50,8 @@ enum drawType
 {
 	e_Cairo,
 	e_CoreGraphics,
-	e_D2D
+	e_D2D,
+	e_CairoGL
 };
 
 drawType g_DrawType = e_Cairo;
@@ -69,6 +71,7 @@ D2DRenderer* g_d2dRenderer = 0;
 CGRenderer* g_cgRenderer = 0;
 #endif
 CairoRenderer* g_cairoRenderer = 0;
+CairoGLRenderer* g_cairoGLRenderer = 0;
 IRenderTest* g_currentTest = 0;
 
 void render ()
@@ -199,7 +202,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    memset(&pfd, 0x00, sizeof(pfd));
    pfd.nSize = sizeof(pfd);
    pfd.nVersion = 1;
-   pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_DOUBLEBUFFER;
+   pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
    pfd.iPixelType = PFD_TYPE_RGBA;
    pfd.cColorBits = 24;
    pfd.cDepthBits = 16;
@@ -212,6 +215,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    g_cgRenderer = new CGRenderer(g_hMainWnd, g_hMainHDC);
 #endif
    g_d2dRenderer = new D2DRenderer(g_hMainWnd, g_hMainHDC);
+   g_cairoGLRenderer = new CairoGLRenderer(g_hMainWnd, g_hMainHDC);
    g_currentTest = g_cairoRenderer;
 
    return TRUE;
@@ -233,10 +237,14 @@ static void SwitchDrawType (HWND hWnd, drawType changeToType)
       g_currentTest = g_cgRenderer;
 		break;
 #endif
+	case e_CairoGL:
+		::SetWindowText (hWnd, L"D2DTest: CairoGL");
+        g_currentTest = g_cairoGLRenderer;
+		break;
 	case e_Cairo:
 	default:
 		::SetWindowText (hWnd, L"D2DTest: Cairo");
-      g_currentTest = g_cairoRenderer;
+        g_currentTest = g_cairoRenderer;
 		break;
 	}
 
@@ -284,6 +292,9 @@ LRESULT CALLBACK WndProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
       case IDM_D2D:
          SwitchDrawType (hWnd, e_D2D);
          break;
+	  case IDM_CAIRO_GL:
+		  SwitchDrawType (hWnd, e_CairoGL);
+		  break;
 
       default:
          return DefWindowProc (hWnd, message, wParam, lParam);
